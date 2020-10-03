@@ -2,74 +2,115 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gasty/app/controllers/HomePageController.dart';
+import 'package:gasty/app/data/services/mock_data.dart';
+import 'package:gasty/app/ui/theme/app_theme.dart';
+import 'package:gasty/app/ui/widgets/Appbar_widget.dart';
+import 'package:gasty/app/ui/widgets/Card4.dart';
+import 'package:gasty/app/ui/widgets/Tabbar_widget.dart';
+
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
-    final List<Color> colores = [
-      Colors.red,
-      Colors.black,
-      Colors.amberAccent,
-      Colors.blue,
-      Colors.cyan,
-      Colors.deepOrange,
-      Colors.green,
-      Colors.greenAccent,
-      Colors.indigo,
-      Colors.indigoAccent,
-      Colors.redAccent,
-    ];
+  
+    final height = Get.height;
+     FlutterStatusbarcolor.setStatusBarColor(appThemeData.primaryColor);
 
-    Random random = Random();
-    final String img =
-        'https://images.squarespace-cdn.com/content/v1/5a0dd6831f318dcf5130a0d5/1552963276197-5WSNM8UUM1D3283BWCYV/ke17ZwdGBToddI8pDm48kIELqAqcW0AtxUzoqUPFn3oUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8PaoYXhp6HxIwZIk7-Mi3Tsic-L2IOPH3Dwrhl-Ne3Z2Pb5Bx8K6uU9PJvuQRN6GclRs8mmoAXPMWhix3Kqr80ubtxPRH917Fz9Qv_NunPol/angela+davis?format=300w';
-    final List<Widget> items = List.generate(
-        100,
-        (index) => Container(
-              width: double.infinity,
-              height: 150,
-              color: colores[random.nextInt(colores.length)],
-            ));
+    // return Scaffold(
+    //   backgroundColor: Color.fromRGBO(222, 226, 230, 1),
+    //   appBar: AppBar(
+    //     centerTitle: true,
+    //     title: Text('Titulo'),
+    //   ),
+    //   body: ListView.separated(
+    //       shrinkWrap: true,
+    //       separatorBuilder: (context, index) => Divider(
+    //             color: Colors.transparent,
+    //           ),
+    //       itemCount: politicians.length,
+    //       itemBuilder: (BuildContext context, int index) {
+    //         return Card4(height: height, politician: politicians, index: index);6
+    //       }),
+    // );
+     int offset = 0;
+     int time;
 
     return Scaffold(
-      body: CustomScrollView(slivers: <Widget>[
-        SliverAppBar(
-          elevation: 2.0,
-          backgroundColor: Colors.amberAccent,
-          pinned: true,
-          expandedHeight: 200,
-          // centerTitle: true,
-          // toolbarHeight: 200,
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(width: 0.0, height: 50),
-                Container(
-                  child: CircleAvatar(
-                    radius: 45,
-                    backgroundColor: Colors.white24,
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundImage: NetworkImage(
-                        img,
-                      ),
-                    ),
-                  ),
-                ),
-                // Text('Spend Bill Gates Money'),
-                // Text("1,0000,0000"),
-              ],
+      backgroundColor: appThemeData.backgroundColor,
+      body: SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            appBar(Get.width),
+            tabBar(),
+            SizedBox(
+              height: 16,
             ),
-          ),
+            Expanded(
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) => Divider(
+                        color: Colors.transparent,
+                      ),
+                  itemCount: politicians.length,
+                  itemBuilder: (BuildContext context, int index) {
+                     offset += 10;
+                     time = 800 + offset;
+                    Future.delayed(Duration(seconds:3));
+                    return Card4(height: height, politician: politicians, index: index);
+                  }),
+            )
+          ],
         ),
-        SliverList(delegate: SliverChildListDelegate(items))
-      ]),
+      ),
+    ),
     );
+
+   
   }
 }
+
+
+// Shimmer.fromColors(
+//           period: Duration(milliseconds: time),
+//           highlightColor: appThemeData.backgroundColor,
+//           baseColor: appThemeData.accentColor,
+//           child: Container(
+//             margin: EdgeInsets.all(4.0),
+//             height: Get.height * 0.19,
+//             child: Stack(
+//               alignment: Alignment.center,
+//               children: <Widget>[
+//                 Positioned(
+//                   child: Container(
+//                     height: Get.height * 0.16,
+//                     width: Get.width,
+//                     decoration: BoxDecoration(
+//                         color: Color(0xFF333333),
+//                         borderRadius: BorderRadius.circular(12)),
+//                   ),
+//                 ),
+//                 Positioned(
+//                   left: 16,
+//                   top: 0,
+//                   height: Get.height * 0.19,
+//                   width: Get.height * 0.16,
+//                   child: Container(
+//                     width: 145,
+//                     alignment: Alignment.centerRight,
+//                     decoration: BoxDecoration(
+//                         color: Color(0xFF333333),
+//                         borderRadius: BorderRadius.circular(12)),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );

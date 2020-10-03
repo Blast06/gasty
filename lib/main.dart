@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gasty/app/ui/pages/DetailPage.dart';
 import 'package:gasty/app/ui/pages/HomePage.dart';
+import 'package:gasty/app/ui/theme/app_theme.dart';
+import 'package:gasty/app/utils.dart/dependency_injector.dart';
+import 'package:gasty/main2.dart';
 import 'package:get/get.dart';
 
 void main() {
+  DependencyInjector.init();
   runApp(MyApp());
 }
 
@@ -11,11 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      title: 'Gasty',
+      theme: appThemeData,
       home: HomePage(),
     );
   }
